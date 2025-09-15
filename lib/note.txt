@@ -1,0 +1,38 @@
+lib/
+│
+├── main.dart                # Entry point of the app
+│
+├── core/                    # Core utilities, constants, and themes
+│   ├── constants/           # App constants (colors, strings, API keys, etc.)
+│   ├── theme/               # App themes (light & dark mode, text styles)
+│   ├── utils/               # Helper functions, formatters, validators
+│   └── routes.dart          # Route management
+│
+├── data/                    # Data layer (models, repositories, APIs)
+│   ├── models/              # Data models (User, Product, etc.)
+│   ├── services/            # External services (API, Firebase, DB)
+│   └── repositories/        # Business logic, data fetching & caching
+│
+├── presentation/            # UI Layer
+│   ├── screens/             # Screen widgets (Home, Splash, Login, etc.)
+│   │   ├── splash/
+│   │   │   ├── splash_screen.dart
+│   │   │   └── splash_controller.dart
+│   │   ├── home/
+│   │   │   ├── home_screen.dart
+│   │   │   └── home_controller.dart
+│   │   └── login/
+│   │       ├── login_screen.dart
+│   │       └── login_controller.dart
+│   │
+│   ├── widgets/             # Reusable small widgets (buttons, loaders, etc.)
+│   └── dialogs/             # Custom dialogs, alerts, bottom sheets
+│
+├── state/                   # State management (Provider, Riverpod, Bloc, etc.)
+│   ├── app_state.dart
+│   ├── cubits/
+│   └── blocs/
+│
+└── config/                  # App-wide configuration
+    ├── env.dart             # Environment variables
+    └── app_config.dart      # Base configurations
