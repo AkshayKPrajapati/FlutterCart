@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttercart/presentation/screens/home_screen.dart';
 
-import 'main_controller.dart' show MainController;
+import 'home_screen.dart';
+import 'main_controller.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -13,9 +13,9 @@ class _MainScreenState extends State<MainScreen> {
   final MainController controller = MainController();
 
   final List<Widget> screens = [
-    HomeScreen(),
+    HomeScreen(), // Your existing HomeScreen
     Center(child: Text("Profile Screen")),
-    Center(child: Text("Setting Screen")),
+    Center(child: Text("Settings Screen")),
   ];
 
   @override
@@ -29,26 +29,11 @@ class _MainScreenState extends State<MainScreen> {
             controller.changeIndex(index);
           });
         },
-        items: controller.bottomItems.map((item) {
-          IconData iconData;
-          switch (item) {
-            case "Home":
-              iconData = Icons.home;
-              break;
-            case "Profile":
-              iconData = Icons.person;
-              break;
-            case "Setting":
-              iconData = Icons.settings;
-              break;
-            default:
-              iconData = Icons.circle;
-          }
-          return BottomNavigationBarItem(
-            icon: Icon(iconData),
-            label: item,
-          );
-        }).toList(),
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
+        ],
       ),
     );
   }

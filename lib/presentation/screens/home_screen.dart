@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../data/models/Product.dart';
+import '../widgets/FooterSection.dart';
 import '../widgets/buildProductCard.dart';
 import 'home_controller.dart';
-import '../../data/models/Product.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -34,16 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  /// Common AppBar
   AppBar _buildAppBar() {
     return AppBar(
-      title: Text("Products"),
+      title: Text(controller.appName),
       centerTitle: true,
       actions: [
         IconButton(
           icon: Icon(Icons.shopping_cart),
           onPressed: () {
-            // TODO: Navigate to Cart Screen
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Go to Cart")),
             );
@@ -52,9 +53,16 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           icon: Icon(Icons.notifications_active),
           onPressed: () {
-            // TODO: Navigate to Notifications
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Notifications clicked")),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("search clicked")),
             );
           },
         ),
@@ -82,27 +90,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: _buildAppBar(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          int crossAxisCount = 2;
-          if (constraints.maxWidth > 600) crossAxisCount = 3;
-          if (constraints.maxWidth > 900) crossAxisCount = 4;
-
-          return GridView.builder(
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
             padding: EdgeInsets.all(10),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.65,
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                  Product product = products[index];
+                  return ProductCard(product: product);
+                },
+                childCount: products.length,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.65,
+              ),
             ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              Product product = products[index];
-              return ProductCard(product: product); // Reusable widget
-            },
-          );
-        },
+          ),
+          SliverToBoxAdapter(
+            child: FooterSection(controller:controller), // Sticky footer at the bottom
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttercart/presentation/screens/product_screen.dart';
 import '../../data/models/Product.dart';
 
 
@@ -44,17 +45,18 @@ class ProductCard extends StatelessWidget {
                     TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$${product.price}",
+                    "₹${(product.price * 10).toStringAsFixed(2)}",
                     style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
                   ),
                   Row(
                     children: [
                       Icon(Icons.star, color: Colors.orange, size: 14),
                       SizedBox(width: 4),
-                      Text(product.rating?.toString() ?? "0"),
+                      Text("${product.rating!}/ 5.0" ?? "0"),
                     ],
                   ),
                   SizedBox(
@@ -68,9 +70,19 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("${product.title} added to cart 🛒"),
-                        ));
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     content: Text("${product.title} added to cart 🛒"),
+                        //   ),
+                        // );
+
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductScreen(product: product),
+                          ),
+                        );
                       },
                       child: Text("Buy"),
                     ),
