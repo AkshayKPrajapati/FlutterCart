@@ -3,7 +3,6 @@ import '../widgets/buildProductCard.dart';
 import 'home_controller.dart';
 import '../../data/models/Product.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -35,18 +34,46 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// Common AppBar
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: Text("Products"),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.shopping_cart),
+          onPressed: () {
+            // TODO: Navigate to Cart Screen
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Go to Cart")),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.notifications_active),
+          onPressed: () {
+            // TODO: Navigate to Notifications
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Notifications clicked")),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text("Product List")),
+        appBar: _buildAppBar(),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (errorMessage != null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Product List")),
+        appBar: _buildAppBar(),
         body: Center(child: Text("Error: $errorMessage")),
       );
     }
@@ -54,10 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final products = controller.productList.products;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Products"),
-        centerTitle: true,
-      ),
+      appBar: _buildAppBar(),
       body: LayoutBuilder(
         builder: (context, constraints) {
           int crossAxisCount = 2;
@@ -75,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               Product product = products[index];
-              return ProductCard(product: product); // ✅ use separate widget
+              return ProductCard(product: product); // Reusable widget
             },
           );
         },
